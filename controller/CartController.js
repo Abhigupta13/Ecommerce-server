@@ -4,7 +4,7 @@ exports.fetchCartByUser = async (req, res) => {
   const { user } = req.query;
   try {
     const cartItems = await Cart.find({ user: user }).populate('product');
-    
+
     res.status(200).json(cartItems);
   } catch (err) {
     res.status(400).json(err);
@@ -12,7 +12,6 @@ exports.fetchCartByUser = async (req, res) => {
 };
 
 exports.addToCart = async (req, res) => {
-  console.log(req.body);
   const cart = new Cart(req.body);
   try {
     const doc = await cart.save();
@@ -39,7 +38,9 @@ exports.updateCart = async (req, res) => {
     const cart = await Cart.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    res.status(200).json(cart);
+    const result = await cart.populate('product');
+
+    res.status(200).json(result);
   } catch (err) {
     res.status(400).json(err);
   }

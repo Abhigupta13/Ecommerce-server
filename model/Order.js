@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
   //TODO:  we can add enum types
   paymentMethod: { type: String, required: true },
   status: { type: String, default: 'pending' },
-  selectedAddress: { type: [mongoose.Schema.Types.Mixed], required: true },
+  selectedAddress: { type: mongoose.Schema.Types.Mixed, required: true },
 });
 
 const virtual = orderSchema.virtual('id');
