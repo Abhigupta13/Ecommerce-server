@@ -2,7 +2,6 @@ const { Category } = require('../model/Category');
 const { User } = require('../model/User');
 
 exports.fetchUserById = async (req, res) => {
-  console.log("user-controller",req.body,req.user);
   const { id } = req.user;
   console.log(id)
   try {
