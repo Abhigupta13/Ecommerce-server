@@ -103,10 +103,10 @@ passport.use(
       {usernameField:'email'},
       async function (email, password, done) {
       // by default passport uses username
-      console.log({email,password})
+      // console.log({email,password})
       try {
         const user = await User.findOne({ email: email });
-        console.log(email, password, user);
+        // console.log(email, password, user);
         if (!user) {
           return done(null, false, { message: 'invalid credentials' }); // for safety
         }
