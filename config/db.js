@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
-
+require('dotenv').config();
 const connectDB=async()=>{
     try {
-        const connect =await mongoose.connect('mongodb://127.0.0.1:27017/ecommerce'
+        const connect =await mongoose.connect(process.env.MONGODB_URL
         // , {
         //     useNewUrlParser: true,
         //     useUnifiedTopology: true,
