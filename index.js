@@ -92,6 +92,8 @@ app.use('/users', isAuth(), usersRouter.router);
 app.use('/auth', authRouter.router);
 app.use('/cart', isAuth(), cartRouter.router);
 app.use('/orders', isAuth(), ordersRouter.router);
+
+// this line we add to make react router work in case of other routes doesnt match
 app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
 
 // Passport Strategies
@@ -170,7 +172,7 @@ const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
 
 
 app.post("/create-payment-intent", async (req, res) => {
-  const { totalAmount } = req.body;
+  const { totalAmount, orderId } = req.body;
   console.log("payment-intent",totalAmount);
 
   // Create a PaymentIntent with the order amount and currency
@@ -180,6 +182,9 @@ app.post("/create-payment-intent", async (req, res) => {
     automatic_payment_methods: {
       enabled: true,
     },
+    metadata:{
+      orderId
+    }
   });
 
   res.send({
