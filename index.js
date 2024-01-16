@@ -24,17 +24,7 @@ const { User } = require('./model/User');
 const path = require('path');
 const { isAuth, sanitizeUser ,cookieExtractor} = require('./services/common');
 
-// Create a new instance of MongoDBStore
-const store = new MongoDBStore({
-  uri: process.env.MONGODB_URL, // Replace with your MongoDB connection string
-  collection: 'sessions',
-  expires: 1000 * 60 * 60 * 24 * 7, // Set session to expire in 7 days (adjust as needed)
-});
 
-// Handle MongoDB connection error
-store.on('error', function (error) {
-  console.error('MongoDB session store error:', error);
-});
 
 // Webhook
 
