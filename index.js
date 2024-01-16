@@ -5,6 +5,8 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const crypto = require('crypto');
@@ -23,6 +25,18 @@ const { User } = require('./model/User');
 const path = require('path');
 const { isAuth, sanitizeUser ,cookieExtractor} = require('./services/common');
 
+// Create a new instance of MongoDBStore
+const store = new MongoDBStore({
+  uri: process.env.MONGODB_URL, // Replace with your MongoDB connection string
+  collection: 'sessions',
+  expires: 1000 * 60 * 60 * 24 * 7, // Set session to expire in 7 days (adjust as needed)
+});
+
+// Handle MongoDB connection error
+store.on('error', function (error) {
+  console.error('MongoDB session store error:', error);
+});
+
 // Webhook
 
 // TODO: we will capture actual order after deploying out server live on public URL
@@ -31,14 +45,14 @@ const endpointSecret = process.env.WEBHOOK_ENDPOINT;
 
 // where to run stripe cli (folderwhere stripe.exe downloaded in path type cmd.exe ->stripe.exe->stripe login)
 
-app.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+app.post('/webhook', express.raw({type: 'application/json'}), async(request, response) => {
   console.log("inside webhook",request.body);
   const sig = request.headers['stripe-signature'];
 
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    event = await stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
   } catch (err) {
     response.status(400).send(`Webhook Error: ${err.message}`);
     return;
