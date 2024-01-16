@@ -5,7 +5,6 @@ const app = express();
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
