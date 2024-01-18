@@ -21,6 +21,7 @@ const authRouter = require('./routes/Auth');
 const cartRouter = require('./routes/Cart');
 const ordersRouter = require('./routes/Order');
 const { User } = require('./model/User');
+const { Order } = require('./model/Order');
 const path = require('path');
 const { isAuth, sanitizeUser ,cookieExtractor} = require('./services/common');
 
@@ -41,7 +42,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), async(request, res
   let event;
 
   try {
-    event = await stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    event =  stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
   } catch (err) {
     response.status(400).send(`Webhook Error: ${err.message}`);
     return;
@@ -51,8 +52,10 @@ app.post('/webhook', express.raw({type: 'application/json'}), async(request, res
   switch (event.type) {
     case 'payment_intent.succeeded':
       const paymentIntentSucceeded = event.data.object;
-      console.log({paymentIntentSucceeded})
-      // Then define and call a function to handle the event payment_intent.succeeded
+      // console.log({paymentIntentSucceeded})
+      const order = await Order.findById(paymentIntentSucceeded.metadata.orderId);
+      order.paymentStatus = 'received';
+      await order.save()
       break;
     // ... handle other event types
     default:

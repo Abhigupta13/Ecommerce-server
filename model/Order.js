@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   //TODO:  we can add enum types
   paymentMethod: { type: String, required: true },
+  paymentStatus: {type:String, default:'pending'},
   status: { type: String, default: 'pending' },
   selectedAddress: { type: mongoose.Schema.Types.Mixed, required: true },
 });
