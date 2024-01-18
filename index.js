@@ -86,10 +86,10 @@ app.use(
   })
 );
 app.use(express.json()); // to parse req.body
-app.use('/products', isAuth(), productsRouter.router);
+app.use('/products', productsRouter.router);
 // we can also use JWT token for client-only auth
-app.use('/categories', isAuth(), categoriesRouter.router);
-app.use('/brands', isAuth(), brandsRouter.router);
+app.use('/categories', categoriesRouter.router);
+app.use('/brands', brandsRouter.router);
 app.use('/users', isAuth(), usersRouter.router);
 
 app.use('/auth', authRouter.router);
