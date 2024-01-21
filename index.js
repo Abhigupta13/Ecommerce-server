@@ -24,7 +24,7 @@ const { User } = require('./model/User');
 const { Order } = require('./model/Order');
 const path = require('path');
 const { isAuth, sanitizeUser ,cookieExtractor} = require('./services/common');
-
+const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
 
 
 // Webhook
@@ -36,15 +36,16 @@ const endpointSecret = process.env.WEBHOOK_ENDPOINT;
 // where to run stripe cli (folderwhere stripe.exe downloaded in path type cmd.exe ->stripe.exe->stripe login)
 
 app.post('/webhook', express.raw({type: 'application/json'}), async(request, response) => {
-  console.log("inside webhook",JSON.parse(request.body.toString('utf-8')));
-  console.log("Webhook Headers:", request.headers);
+  // console.log("inside webhook",JSON.parse(request.body.toString('utf-8')));
+  // console.log("Webhook Headers:", request.headers);
   const sig = request.headers['stripe-signature'];
 
   let event;
 
   try {
-    event =  stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+    event = await stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
   } catch (err) {
+    console.log(err);
     response.status(400).send(`Webhook Error: ${err.message}`);
     return;
   }
@@ -130,30 +131,31 @@ passport.use(
             const token = jwt.sign(sanitizeUser(user),process.env.JWT_SECRET_KEY);
             done(null, {id:user.id, role:user.role,token:token}); // this lines sends to serializer
           }
+          );
+        } catch (err) {
+          done(err);
+        }
+      })
+      );
+      
+      passport.use(
+        'jwt',
+        new JwtStrategy(opts, async function (jwt_payload, done) {
+          console.log({ jwt_payload });
+          try {
+            const user = await User.findById(jwt_payload.id);
+            if (user) {
+              return done(null, sanitizeUser(user)); // this calls serializer
+            } else {
+              return done(null, false);
+            }
+          } catch (err) {
+            return done(err, false);
+          }
+        })
         );
-      } catch (err) {
-        done(err);
-      }
-    })
-  );
-
-passport.use(
-  'jwt',
-  new JwtStrategy(opts, async function (jwt_payload, done) {
-    console.log({ jwt_payload });
-    try {
-        const user = await User.findById(jwt_payload.id);
-      if (user) {
-        return done(null, sanitizeUser(user)); // this calls serializer
-      } else {
-        return done(null, false);
-      }
-    } catch (err) {
-      return done(err, false);
-    }
-  })
-);
-
+        
+        
 // this creates session variable req.user on being called from callbacks
 passport.serializeUser(function (user, cb) {
   console.log('serialize', user);
@@ -175,7 +177,6 @@ passport.deserializeUser(function (user, cb) {
 
 
 // This is your test secret API key.
-const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
 
 
 app.post("/create-payment-intent", async (req, res) => {
@@ -183,9 +184,24 @@ app.post("/create-payment-intent", async (req, res) => {
   console.log("payment-intent",totalAmount);
 
   // Create a PaymentIntent with the order amount and currency
+  // console.log(totalAmount)
   const paymentIntent = await stripe.paymentIntents.create({
     amount: totalAmount*100, // for decimal compensation
-    currency: "inr",
+    currency: "usd",
+    // email:"testemail@gmail.com",
+    // name:"akg",
+    // phone:"1234567890",
+    description:"booking kar di matlab kar di",
+    shipping: {
+      name: 'Jenny Rosen',
+      address: {
+        line1: '510 Townsend St',
+        postal_code: '98140',
+        city: 'San Francisco',
+        state: 'CA',
+        country: 'US',
+      },
+    },
     automatic_payment_methods: {
       enabled: true,
     },
