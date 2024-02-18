@@ -27,6 +27,7 @@ const { isAuth, sanitizeUser ,cookieExtractor} = require('./services/common');
 const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
 
 
+
 // Webhook
 
 // TODO: we will capture actual order after deploying out server live on public URL
@@ -191,12 +192,12 @@ app.post("/create-payment-intent", async (req, res) => {
     // email:"testemail@gmail.com",
     // name:"akg",
     // phone:"1234567890",
-    description:"booking kar di matlab kar di",
+    description:"dummy payment",
     shipping: {
-      name: 'Jenny Rosen',
+      name: 'Abhishek Gupta',
       address: {
-        line1: '510 Townsend St',
-        postal_code: '98140',
+        line1: 'Khelgaon',
+        postal_code: '834009',
         city: 'San Francisco',
         state: 'CA',
         country: 'US',
