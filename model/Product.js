@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const {Schema} = mongoose;
 
 
-const productSchema = new mongoose.Schema({
+const productSchema = new Schema({
     title: { type : String, required: true, unique: true},
     description: { type : String, required: true},
     price: { type: Number, min:[1, 'wrong min price'], max:[10000, 'wrong max price']},
@@ -12,8 +13,11 @@ const productSchema = new mongoose.Schema({
     category: { type : String, required: true},
     thumbnail: { type : String, required: true},
     images:{ type : [String], required: true},
+    colors:{ type : [Schema.Types.Mixed] },
+    sizes:{ type : [Schema.Types.Mixed]},
+    highlights:{ type : [String] },
     deleted: { type : Boolean, default: false},
-},{timestamps: true})
+})
 
 const virtual  = productSchema.virtual('id');
 virtual.get(function(){
