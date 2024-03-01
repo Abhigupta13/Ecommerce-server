@@ -37,9 +37,7 @@ const endpointSecret = process.env.WEBHOOK_ENDPOINT;
 // where to run stripe cli (folderwhere stripe.exe downloaded in path type cmd.exe ->stripe.exe->stripe login)
 
 app.post('/webhook', express.raw({type: 'application/json'}), async(request, response) => {
-  // console.log("inside webhook",JSON.parse(request.body.toString('utf-8')));
-  // console.log("Webhook Headers:", request.headers);
-  const sig = request.headers['stripe-signature'];
+const sig = request.headers['stripe-signature'];
 
   let event;
 
