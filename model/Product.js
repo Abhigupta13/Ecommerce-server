@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema({
     thumbnail: { type : String, required: true},
     images:{ type : [String], required: true},
     deleted: { type : Boolean, default: false},
-})
+},{timestamps: true})
 
 const virtual  = productSchema.virtual('id');
 virtual.get(function(){

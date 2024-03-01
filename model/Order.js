@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
   paymentStatus: {type:String, default:'pending'},
   status: { type: String, default: 'pending' },
   selectedAddress: { type: mongoose.Schema.Types.Mixed, required: true },
-});
+},{timestamps: true});
 
 const virtual = orderSchema.virtual('id');
 virtual.get(function () {
