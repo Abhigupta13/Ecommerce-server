@@ -4,7 +4,7 @@ const { sanitizeUser, sendMail } = require('../services/common');
 const jwt = require('jsonwebtoken');
 
 exports.createUser = async (req, res) => {
-  console.log("createUser-controller",req.body);
+  // console.log("createUser-controller",req.body);
   try {
     const salt = crypto.randomBytes(16);
     crypto.pbkdf2(

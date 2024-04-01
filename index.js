@@ -53,7 +53,7 @@ const sig = request.headers['stripe-signature'];
   switch (event.type) {
     case 'payment_intent.succeeded':
       const paymentIntentSucceeded = event.data.object;
-      console.log({paymentIntentSucceeded})
+      // console.log({paymentIntentSucceeded})
       const order = await Order.findById(paymentIntentSucceeded.metadata.orderId);
       order.paymentStatus = 'received';
       await order.save()
@@ -140,7 +140,7 @@ passport.use(
       passport.use(
         'jwt',
         new JwtStrategy(opts, async function (jwt_payload, done) {
-          console.log({ jwt_payload });
+          // console.log({ jwt_payload });
           try {
             const user = await User.findById(jwt_payload.id);
             if (user) {
@@ -157,7 +157,7 @@ passport.use(
         
 // this creates session variable req.user on being called from callbacks
 passport.serializeUser(function (user, cb) {
-  console.log('serialize', user);
+  // console.log('serialize', user);
   process.nextTick(function () {
     return cb(null, { id: user.id, role: user.role });
   });
@@ -166,7 +166,7 @@ passport.serializeUser(function (user, cb) {
 // this changes session variable req.user when called from authorized request
 
 passport.deserializeUser(function (user, cb) {
-  console.log('de-serialize', user);
+  // console.log('de-serialize', user);
   process.nextTick(function () {
     return cb(null, user);
   });
@@ -180,7 +180,7 @@ passport.deserializeUser(function (user, cb) {
 
 app.post("/create-payment-intent", async (req, res) => {
   const { totalAmount, orderId } = req.body;
-  console.log("payment-intent",totalAmount);
+  // console.log("payment-intent",totalAmount);
 
   // Create a PaymentIntent with the order amount and currency
   // console.log(totalAmount)
