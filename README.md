@@ -1,7 +1,10 @@
 ```markdown
 # QuickMart - MERN Stack E-commerce Project (Backend Repository)
 
-Welcome to the backend repository of QuickMart, a full-fledged MERN (MongoDB, Express, React, Node.js) stack e-commerce application with an admin panel, Redux Toolkit, Stripe Payment integration, cloud deployment, and various other features. This repository houses the backend codebase responsible for managing data, authentication, and other server-side functionalities.
+Welcome to the backend repository of QuickMart, a full-fledged MERN (MongoDB, Express, React, Node.js)
+stack e-commerce application with an admin panel, Redux Toolkit, Stripe Payment integration, cloud deployment,
+and various other features. This repository houses the backend codebase responsible for managing data,
+authentication, and other server-side functionalities.
 
 ## Getting Started
 
