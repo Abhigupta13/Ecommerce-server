@@ -1,4 +1,3 @@
-```markdown
 # QuickMart - MERN Stack E-commerce Project (Backend Repository)
 
 Welcome to the backend repository of QuickMart, a full-fledged MERN (MongoDB, Express, React, Node.js)
