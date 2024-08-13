@@ -1,0 +1,22 @@
+name: Website Deployment
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow every 5 minutes
+  schedule:
+    - cron: "*/300 * * * *"
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "deploy"
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Run a command to make an HTTP request to your website
+      - name: Ping Website
+        run: curl -sS https://ecommerce-server-xvqq.onrender.com
+
+      # Optionally, you can add more steps here like running tests, etc.

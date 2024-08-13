@@ -2,9 +2,9 @@ const { Product } = require('../model/Product');
 
 exports.createProduct = async (req, res) => {
   // this product we have to get from API body
+  try {
   const product = new Product(req.body);
   product.discountPrice = Math.round(product.price*(1-product.discountPercentage/100))
-  try {
     const doc = await product.save();
     res.status(201).json(doc);
   } catch (err) {
@@ -13,6 +13,7 @@ exports.createProduct = async (req, res) => {
 };
 
 exports.fetchAllProducts = async (req, res) => {
+  try {
   // filter = {"category":["smartphone","laptops"]}
   // sort = {_sort:"price",_order="desc"}
   // pagination = {_page:1,_limit=10}
@@ -40,7 +41,7 @@ exports.fetchAllProducts = async (req, res) => {
     query = query.sort({ [req.query._sort]: req.query._order });
   }
 
-  const totalDocs = await totalProductsQuery.countDocuments()().exec();
+  const totalDocs = await totalProductsQuery.countDocuments().exec();
   // console.log({ totalDocs });
 
   if (req.query._page && req.query._limit) {
@@ -49,7 +50,6 @@ exports.fetchAllProducts = async (req, res) => {
     query = query.skip(pageSize * (page - 1)).limit(pageSize);
   }
 
-  try {
     const docs = await query.exec();
     res.set('X-Total-Count', totalDocs);
     res.status(200).json(docs);
