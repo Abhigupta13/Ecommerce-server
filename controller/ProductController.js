@@ -13,6 +13,7 @@ exports.createProduct = async (req, res) => {
 };
 
 exports.fetchAllProducts = async (req, res) => {
+  try {
   // filter = {"category":["smartphone","laptops"]}
   // sort = {_sort:"price",_order="desc"}
   // pagination = {_page:1,_limit=10}
@@ -49,7 +50,6 @@ exports.fetchAllProducts = async (req, res) => {
     query = query.skip(pageSize * (page - 1)).limit(pageSize);
   }
 
-  try {
     const docs = await query.exec();
     res.set('X-Total-Count', totalDocs);
     res.status(200).json(docs);
