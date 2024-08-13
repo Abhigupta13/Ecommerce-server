@@ -15,6 +15,7 @@ exports.fetchOrdersByUser = async (req, res) => {
   };
   
   exports.createOrder = async (req, res) => {
+    try {
     const order = new Order(req.body);
       // here we have to update stocks;
 
@@ -25,7 +26,6 @@ exports.fetchOrdersByUser = async (req, res) => {
         await product.save()
      }
  
-    try {
       const doc = await order.save();
       const user=await User.findById(order.user);
       //we can use await for this also
@@ -61,6 +61,7 @@ exports.fetchOrdersByUser = async (req, res) => {
   exports.fetchAllOrders = async (req, res) => {
     // sort = {_sort:"price",_order="desc"}
     // pagination = {_page:1,_limit=10}
+    try {
     let query = Order.find({deleted:{$ne:true}});
     let totalOrdersQuery = Order.find({deleted:{$ne:true}});
   
@@ -78,7 +79,6 @@ exports.fetchOrdersByUser = async (req, res) => {
       query = query.skip(pageSize * (page - 1)).limit(pageSize);
     }
   
-    try {
       const docs = await query.exec();
       res.set('X-Total-Count', totalDocs);
       res.status(200).json(docs);
