@@ -4,7 +4,9 @@ exports.createProduct = async (req, res) => {
   // this product we have to get from API body
   try {
   const product = new Product(req.body);
+  if(product.discountPrice>=1){
   product.discountPrice = Math.round(product.price*(1-product.discountPercentage/100))
+  }
     const doc = await product.save();
     res.status(201).json(doc);
   } catch (err) {
@@ -73,7 +75,9 @@ exports.updateProduct = async (req, res) => {
   const { id } = req.params;
   try {
     const product = await Product.findByIdAndUpdate(id, req.body, {new:true});
-    product.discountPrice = Math.round(product.price*(1-product.discountPercentage/100))
+    if(product.discountPrice>=1){
+      product.discountPrice = Math.round(product.price*(1-product.discountPercentage/100))
+      }
     const updatedProduct = await product.save()
     res.status(200).json(updatedProduct);
   } catch (err) {
