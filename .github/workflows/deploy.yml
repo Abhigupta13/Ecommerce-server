@@ -17,6 +17,6 @@ jobs:
     steps:
       # Run a command to make an HTTP request to your website
       - name: Ping Website
-        run: curl -sS https://ecommerce-server-xvqq.onrender.com
+        run: curl -sS -I https://ecommerce-server-xvqq.onrender.com
 
       # Optionally, you can add more steps here like running tests, etc.
