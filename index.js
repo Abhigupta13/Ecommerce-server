@@ -90,6 +90,9 @@ app.use(
   })
 );
 app.use(express.json()); // to parse req.body
+app.use('/',async(req,res)=>{
+  res.send("welcome to the quickmart-ecommerce backend")
+})
 app.use('/products', productsRouter.router);
 // we can also use JWT token for client-only auth
 app.use('/categories', categoriesRouter.router);
