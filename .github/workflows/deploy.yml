@@ -1,10 +1,10 @@
-name: Website Deployment
+name: Website Deployment e-commerce 1
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow every 300 minutes
+  # Triggers the workflow every 15 minutes
   schedule:
-    - cron: "*/300 * * * *"
+    - cron: "*/200 * * * *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -17,6 +17,6 @@ jobs:
     steps:
       # Run a command to make an HTTP request to your website
       - name: Ping Website
-        run: curl -sS -I https://ecommerce-server-xvqq.onrender.com
+        run: curl -sS -I https://mern-ecommerce-u3eu.onrender.com
 
       # Optionally, you can add more steps here like running tests, etc.
