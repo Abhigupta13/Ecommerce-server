@@ -90,7 +90,7 @@ app.use(
   })
 );
 app.use(express.json()); // to parse req.body
-app.use('/',async(req,res)=>{
+app.get('/',async(req,res)=>{
   res.send("welcome to the quickmart-ecommerce backend")
 })
 app.use('/products', productsRouter.router);
@@ -104,7 +104,7 @@ app.use('/cart', isAuth(), cartRouter.router);
 app.use('/orders', isAuth(), ordersRouter.router);
 
 // this line we add to make react router work in case of other routes doesnt match
-app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
+// app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
 
 // Passport Strategies
 passport.use(
