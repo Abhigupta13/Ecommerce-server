@@ -74,7 +74,7 @@ opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET_KEY; // TODO: should not be in code;
 
 //middlewares
-app.use(express.static(path.resolve(__dirname,'build')))
+// app.use(express.static(path.resolve(__dirname,'build')))
 app.use(cookieParser());
 app.use(
   session({
