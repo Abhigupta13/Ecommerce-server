@@ -4,15 +4,16 @@ const { Product } = require("../model/Product");
 const { sendMail, invoiceTemplate } = require("../services/common");
 
 exports.fetchOrdersByUser = async (req, res) => {
-    const { id } = req.user;
-    try {
-      const orders = await Order.find({ user: id });
-  
-      res.status(200).json(orders);
-    } catch (err) {
-      res.status(400).json(err);
-    }
-  };
+  const { id } = req.user;
+  try {
+    const orders = await Order.find({ user: id }).sort({ createdAt: -1 }); // Sort by 'createdAt' in descending order
+
+    res.status(200).json(orders);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
   
   exports.createOrder = async (req, res) => {
     try {
@@ -70,7 +71,7 @@ exports.fetchOrdersByUser = async (req, res) => {
       query = query.sort({ [req.query._sort]: req.query._order });
     }
   
-    const totalDocs = await totalOrdersQuery.count().exec();
+    const totalDocs = await totalOrdersQuery.countDocuments().exec();
     // console.log({ totalDocs });
   
     if (req.query._page && req.query._limit) {

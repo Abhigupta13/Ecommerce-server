@@ -74,7 +74,7 @@ opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET_KEY; // TODO: should not be in code;
 
 //middlewares
-// app.use(express.static(path.resolve(__dirname,'build')))
+app.use(express.static(path.resolve(__dirname,'build')))
 app.use(cookieParser());
 app.use(
   session({
@@ -90,9 +90,9 @@ app.use(
   })
 );
 app.use(express.json()); // to parse req.body
-app.get('/',async(req,res)=>{
-  res.send("welcome to the quickmart-ecommerce backend")
-})
+// app.get('/',async(req,res)=>{
+//   res.send("welcome to the quickmart-ecommerce backend")
+// })
 app.use('/products', productsRouter.router);
 // we can also use JWT token for client-only auth
 app.use('/categories', categoriesRouter.router);
@@ -100,11 +100,11 @@ app.use('/brands', brandsRouter.router);
 app.use('/users', isAuth(), usersRouter.router);
 
 app.use('/auth', authRouter.router);
-app.use('/cart', isAuth(), cartRouter.router);
+app.use('/productCart', isAuth(), cartRouter.router);
 app.use('/orders', isAuth(), ordersRouter.router);
 
 // this line we add to make react router work in case of other routes doesnt match
-// app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
+app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
 
 // Passport Strategies
 passport.use(
