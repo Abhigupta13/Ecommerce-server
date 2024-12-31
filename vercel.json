@@ -9,11 +9,10 @@
       "use": "@vercel/static"
     }
   ],
-
-  "rewrites": [{ "source": "/(.*)", "destination": "index.js" }],
-  "functions": {
-    "/index.js": {
-      "maxDuration": 30  
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "index.js"
     }
-  }
+  ]
 }
