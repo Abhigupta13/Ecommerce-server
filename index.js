@@ -74,7 +74,7 @@ opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.JWT_SECRET_KEY; // TODO: should not be in code;
 
 //middlewares
-// app.use(express.static(path.resolve(__dirname,'build')))
+app.use(express.static(path.resolve(__dirname,'build')))
 app.use(cookieParser());
 app.use(
   session({
@@ -104,7 +104,7 @@ app.use('/productCart', isAuth(), cartRouter.router);
 app.use('/orders', isAuth(), ordersRouter.router);
 
 // this line we add to make react router work in case of other routes doesnt match
-// app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
+app.get('*', (req, res) => res.sendFile(path.resolve('build', 'index.html')));
 
 // Passport Strategies
 passport.use(

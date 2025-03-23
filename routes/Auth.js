@@ -11,21 +11,3 @@ router.post('/signup', createUser)
 .post('/reset-password-request', resetPasswordRequest)
 .post('/reset-password', resetPassword)
 exports.router = router;
-
-
-
-
-
-
-
-
-
-
-
-// // https://www.youtube.com/watch?v=LH-S5v-D3hA
-// app.listen(PORT, async()=>{
-//     connectDB();
-//     console.log('Server started on PORT',PORT)
-// })
-// const connectDB  = require('./config/db');
-// const {PORT} = require('./config/serverConfig');
